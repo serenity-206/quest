@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>1年A組 名簿管理</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+
+    h1, h2 {
+      margin-bottom: 20px;
+    }
+
+    #teacherNameDisplay {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    #generateRoster {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #eee;
+      border: none;
+      border-radius: 4px;
+      margin-bottom: 30px;
+      cursor: pointer;
+    }
+
+    #rosterDisplay {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    table.roster-table {
+      border-collapse: collapse;
+      background-color: #fff;
+      border: 2px solid #999;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      table-layout: fixed;
+      width: 400px;
+    }
+
+    .roster-table th,
+    .roster-table td {
+      border: 1px solid #999;
+      padding: 12px 16px;
+      font-size: 16px;
+      text-align: center;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    .roster-table th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+      font-size: 17px;
+    }
+  </style>
+</head>
+<body>
+  <h1>1年A組 名簿管理</h1>
+
+  <section>
+    <h2>担任</h2>
+    <p id="teacherNameDisplay">読み込み中...</p>
+  </section>
+
+  <section>
+    <h2>生徒名簿の保存</h2>
+    <button id="generateRoster">名簿を生成して保存</button>
+  </section>
+
+  <section>
+    <h2>登録済み名簿</h2>
+    <div id="rosterDisplay"></div>
+  </section>
+
+  <script>
+    const studentRoster = {
+      "1年-A組": [
+        { number: 1, name: "青木美優" },
+        { number: 2, name: "赤坂陽菜" },
+        { number: 3, name: "浅野颯太" },
+        { number: 4, name: "池田結衣" },
+        { number: 5, name: "石井陽翔" },
+        { number: 6, name: "伊藤健" },
+        { number: 7, name: "上野心" },
+        { number: 8, name: "大野結菜" },
+        { number: 9, name: "岡田紗季" },
+        { number: 10, name: "加藤未来" },
+        { number: 11, name: "木村美月" },
+        { number: 12, name: "小林大地" },
+        { number: 13, name: "斎藤蒼" },
+        { number: 14, name: "佐々木蓮" },
+        { number: 15, name: "佐藤花子" },
+        { number: 16, name: "清水海斗" },
+        { number: 17, name: "鈴木一郎" },
+        { number: 18, name: "高橋美咲" },
+        { number: 19, name: "田中太郎" },
+        { number: 20, name: "土屋悠真" },
+        { number: 21, name: "中村葵" },
+        { number: 22, name: "西村蒼" },
+        { number: 23, name: "野口結月" },
+        { number: 24, name: "長谷川凛" },
+        { number: 25, name: "原田結月" },
+        { number: 26, name: "藤田陸" },
+        { number: 27, name: "松本ひかり" },
+        { number: 28, name: "三浦悠" },
+        { number: 29, name: "村上大和" },
+        { number: 30, name: "山本翔" }
+      ]
+    };
+
+    const teacherRoster = JSON.parse(localStorage.getItem("teacherRoster")) || {};
+    const teacher = teacherRoster["1年-A組"];
+    const teacherNameDisplay = document.getElementById("teacherNameDisplay");
+    teacherNameDisplay.textContent = teacher?.name || "未登録";
+
+    const generateBtn = document.getElementById("generateRoster");
+    const rosterDisplay = document.getElementById("rosterDisplay");
+
+    generateBtn.addEventListener("click", () => {
+      localStorage.setItem("studentRoster", JSON.stringify(studentRoster));
+      displayRoster(studentRoster["1年-A組"]);
+      alert("生徒名簿を保存しました");
+    });
+
+    function displayRoster(roster) {
+      rosterDisplay.innerHTML = "";
+
+      const table = document.createElement("table");
+      table.className = "roster-table";
+
+      const thead = document.createElement("thead");
+      const headerRow = document.createElement("tr");
+
+      const thNumber = document.createElement("th");
+      thNumber.textContent = "出席番号";
+
+      const thName = document.createElement("th");
+      thName.textContent = "氏名";
+
+      headerRow.appendChild(thNumber);
+      headerRow.appendChild(thName);
+      thead.appendChild(headerRow);
+      table.appendChild(thead);
+
+      const tbody = document.createElement("tbody");
+      roster.forEach(student => {
+        const row = document.createElement("tr");
+
+        const tdNumber = document.createElement("td");
+        tdNumber.textContent = student.number;
+
+        const tdName = document.createElement("td");
+        tdName.textContent = student.name;
+
+        row.appendChild(tdNumber);
+        row.appendChild(tdName);
+        tbody.appendChild(row);
+      });
+
+      table.appendChild(tbody);
+      rosterDisplay.appendChild(table);
+    }
+
+    const savedRoster = JSON.parse(localStorage.getItem("studentRoster")) || {};
+    if (savedRoster["1年-A組"]) {
+      displayRoster(savedRoster["1年-A組"]);
+    }
+  </script>
+</body>
+</html>

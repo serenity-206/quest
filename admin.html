@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>管理者画面</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <h1>管理者メニュー</h1>
+
+    <!-- クラス追加 -->
+    <section>
+        <h2>クラス追加</h2>
+        <form id="addClassForm">
+            <label>学年：<input type="text" id="newGrade" placeholder="例：1年"></label>
+            <label>クラス：<input type="text" id="newClass" placeholder="例：A組"></label>
+            <button type="submit">追加</button>
+        </form>
+    </section>
+
+    <!-- 生徒アカウント作成 -->
+    <section>
+        <h2>生徒アカウント作成</h2>
+        <form id="addStudentForm">
+            <label>名前：<input type="text" id="studentName"></label>
+            <label>出席番号：<input type="number" id="studentNumber"></label>
+            <label>ID：<input type="text" id="studentId"></label>
+            <label>パスワード：<input type="text" id="studentPassword"></label>
+            <label>学年：<input type="text" id="studentGrade"></label>
+            <label>クラス：<input type="text" id="studentClass"></label>
+            <button type="submit">登録</button>
+        </form>
+    </section>
+
+    <!-- 担任アカウント作成 -->
+    <section>
+        <h2>担任アカウント作成</h2>
+        <form id="addTeacherForm">
+            <label>名前：<input type="text" id="teacherName"></label>
+            <label>ID：<input type="text" id="teacherId"></label>
+            <label>パスワード：<input type="text" id="teacherPassword"></label>
+            <label>担当クラス：<input type="text" id="teacherClass"></label>
+            <button type="submit">登録</button>
+        </form>
+    </section>
+
+    <!-- 生徒名簿表示・編集・削除 -->
+    <section>
+        <h2>生徒名簿一覧・編集・削除</h2>
+        <select id="classSelector"></select>
+        <div id="rosterDisplay"></div>
+    </section>
+
+    <!-- 担任名簿表示・編集・削除 -->
+    <section>
+        <h2>担任一覧・編集・削除</h2>
+        <div id="teacherDisplay"></div>
+    </section>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>

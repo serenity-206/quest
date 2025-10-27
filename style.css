@@ -1,0 +1,154 @@
+@charset "utf-8";
+
+/* ===============================
+   共通スタイル
+================================= */
+body {
+  font-family: sans-serif;
+  background-color: #f5f5f5;
+  padding: 20px;
+  text-align: center;
+}
+
+h1, h2 {
+  font-weight: normal;
+  margin-bottom: 20px;
+}
+
+/* ===============================
+   フォーム（縦並び・中央揃え）
+================================= */
+form {
+  max-width: 400px;
+  margin: 0 auto 30px;
+  text-align: left;
+}
+
+form label {
+  display: block;
+  margin-bottom: 12px;
+}
+
+form input {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin-top: 4px;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+form button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* ===============================
+   担任表示
+================================= */
+#teacherNameDisplay {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* ===============================
+   生徒名簿保存ボタン
+================================= */
+#generateRoster {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #eee;
+  border: none;
+  border-radius: 4px;
+  margin-bottom: 30px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#generateRoster:hover {
+  background-color: #e0e0e0;
+}
+
+/* ===============================
+   生徒名簿表示（表形式）
+================================= */
+#rosterDisplay {
+  display: block; /* ← flexを解除 */
+  margin: 0 auto 30px;
+  max-width: 600px;
+  text-align: left;
+}
+
+table.roster-table {
+  border-collapse: collapse;
+  background-color: #fff;
+  border: 2px solid #999;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  table-layout: fixed;
+  min-width: 300px;
+  width: auto;
+}
+
+.roster-table th,
+.roster-table td {
+  border: 1px solid #999;
+  padding: 12px 24px;
+  font-size: 16px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.roster-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  font-size: 17px;
+}
+
+/* ===============================
+   生徒一覧（縦並び表示）
+================================= */
+.student-entry {
+  display: block;
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  border-left: 4px solid #2196F3;
+}
+
+/* ===============================
+   担任一覧・履歴表示
+================================= */
+#history,
+#recordList,
+#teacherDisplay {
+  max-width: 800px;
+  margin: 30px auto;
+  text-align: left;
+}
+
+.note-entry,
+.teacher-entry {
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.note-entry {
+  border-left: 5px solid #4CAF50;
+}
+
+.teacher-entry {
+  border-left: 5px solid #2196F3;
+}
+
+.teacher-entry button {
+  margin-top: 10px;
+  margin-right: 10px;
+}
