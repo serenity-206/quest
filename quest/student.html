@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>連絡帳提出</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>連絡帳提出</h1>
+
+  <section id="studentInfoDisplay">
+    <p>こんにちは、<strong id="studentNameDisplay"></strong> さん</p>
+    <p>学年：<span id="gradeDisplay"></span>　クラス：<span id="classDisplay"></span>　出席番号：<span id="numberDisplay"></span></p>
+  </section>
+
+  <form id="noteForm">
+    <fieldset>
+      <legend>提出フォーム</legend>
+
+      <label for="submitDate">提出日：</label>
+      <input type="date" id="submitDate" name="submitDate" required><br>
+
+      <label for="condition">体調（1〜5）：</label>
+      <select id="condition" name="condition" required>
+        <option value="5">とても元気</option>
+        <option value="4">元気</option>
+        <option value="3">少し疲れている</option>
+        <option value="2">やや不調</option>
+        <option value="1">体調不良</option>
+      </select><br>
+
+      <label for="mental">メンタル（1〜5）：</label>
+      <select id="mental" name="mental" required>
+        <option value="5">とても落ち着いている</option>
+        <option value="4">落ち着いている</option>
+        <option value="3">少し不安</option>
+        <option value="2">不安</option>
+        <option value="1">興奮気味</option>
+      </select><br>
+
+      <label for="reflectionNote">今日の振り返り：</label><br>
+      <textarea id="reflectionNote" name="reflectionNote" rows="4" placeholder="今日の振り返り..." required></textarea><br>
+
+      <button type="submit">提出</button>
+    </fieldset>
+  </form>
+
+  <section>
+    <h2>過去の提出記録</h2>
+    <div id="history"></div>
+  </section>
+
+  <script src="student.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>提出状況一覧（担任用）</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="teacher.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>提出状況一覧（担任用）</h1>
+  </header>
+
+  <main>
+    <!-- フィルター選択フォーム -->
+    <section id="filter-section">
+      <form id="filterForm">
+        <label for="filterGrade">学年：</label>
+        <select id="filterGrade" name="filterGrade">
+          <option value="1年">1年</option>
+          <option value="2年">2年</option>
+          <option value="3年">3年</option>
+        </select>
+
+        <label for="filterClass">クラス：</label>
+        <select id="filterClass" name="filterClass">
+          <option value="A組">A組</option>
+          <option value="B組">B組</option>
+          <option value="C組">C組</option>
+        </select>
+
+        <label for="studentSelect">生徒：</label>
+        <select id="studentSelect" name="studentSelect">
+          <option value="">選択してください</option>
+        </select>
+
+        <button type="submit">表示</button>
+      </form>
+    </section>
+
+    <!-- 提出記録一覧（任意で残す） -->
+    <section id="record-section">
+      <h2>提出記録（最新）</h2>
+      <div id="recordList"></div>
+    </section>
+
+    <!-- グラフと異常検知 -->
+    <section id="graph-section">
+      <h2>体調履歴グラフ</h2>
+      <canvas id="condition-chart"></canvas>
+
+      <h2>異常検知</h2>
+      <div id="alert-message">異常なし</div>
+    </section>
+
+    <!-- メモ -->
+    <section id="memo-section">
+      <h2>共有メモ</h2>
+      <textarea id="shared-memo" rows="4" placeholder="気づいたことを記入..."></textarea>
+      <button id="save-memo">保存</button>
+    </section>
+
+    <!-- 履歴一覧（個別生徒） -->
+    <section id="history-section">
+      <h2>履歴一覧</h2>
+      <div id="historyList"></div>
+    </section>
+  </main>
+</body>
+
+</html>
+
