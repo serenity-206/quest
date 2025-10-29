@@ -1,5 +1,4 @@
 window.addEventListener("DOMContentLoaded", () => {
-  // DOM要素の取得
   const recordList = document.getElementById("recordList");
   const filterForm = document.getElementById("filterForm");
   const gradeSelect = document.getElementById("filterGrade");
@@ -11,13 +10,19 @@ window.addEventListener("DOMContentLoaded", () => {
   const saveMemoBtn = document.getElementById("save-memo");
   const historyList = document.getElementById("historyList");
 
-  // データの取得
   let records = JSON.parse(localStorage.getItem("studentRecords")) || [];
-  let rosterData = JSON.parse(localStorage.getItem("studentRoster")) || {};
+  let rosterData = {};
   let chartInstance = null;
   let currentStudentKey = null;
 
-  // メモ保存・読み込み（関数化）
+  // 外部JSONから名簿データを読み込む
+  fetch("studentRoster.json")
+    .then(res => res.json())
+    .then(data => {
+      rosterData = data;
+      updateStudentOptions(); // 初期表示
+    });
+
   function saveSharedMemo(studentKey, memoText) {
     localStorage.setItem(`memo_${studentKey}`, memoText);
   }
@@ -26,7 +31,6 @@ window.addEventListener("DOMContentLoaded", () => {
     return localStorage.getItem(`memo_${studentKey}`) || "";
   }
 
-  // 最新の提出記録を抽出（1人1件）
   function getLatestRecords() {
     const latest = {};
     records.forEach(record => {
@@ -38,12 +42,11 @@ window.addEventListener("DOMContentLoaded", () => {
     return latest;
   }
 
-  // 生徒一覧の更新
   function updateStudentOptions() {
     const grade = gradeSelect.value;
     const className = classSelect.value;
     const classKey = `${grade}-${className}`;
-    const roster = rosterData[classKey] || [];
+    const roster = Array.isArray(rosterData[classKey]) ? rosterData[classKey] : [rosterData[classKey]];
 
     studentSelect.innerHTML = '<option value="">選択してください</option>';
     roster.forEach(student => {
@@ -54,10 +57,9 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 提出状況一覧の表示
   function renderTeacherView(grade, className) {
     const classKey = `${grade}-${className}`;
-    const roster = rosterData[classKey] || [];
+    const roster = Array.isArray(rosterData[classKey]) ? rosterData[classKey] : [rosterData[classKey]];
     const latestRecords = getLatestRecords();
     recordList.innerHTML = "";
 
@@ -94,21 +96,15 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 既読処理
   window.markAsRead = function (key) {
     records = records.map(r => {
       const k = `${r.grade}-${r.class}-${r.number}`;
       return k === key ? { ...r, read: true } : r;
     });
-
     localStorage.setItem("studentRecords", JSON.stringify(records));
-
-    const grade = gradeSelect.value;
-    const className = classSelect.value;
-    renderTeacherView(grade, className);
+    renderTeacherView(gradeSelect.value, classSelect.value);
   };
 
-  // 履歴・グラフ・メモ表示
   window.updateChartAndMemo = function (grade, className, number, name) {
     const studentRecords = records.filter(r =>
       r.grade === grade && r.class === className && r.number === number
@@ -130,11 +126,9 @@ window.addEventListener("DOMContentLoaded", () => {
     memoArea.value = loadSharedMemo(currentStudentKey);
   };
 
-  // グラフ描画
   function drawChart(studentRecords) {
     const labels = studentRecords.map(r => r.recordDate);
     const data = studentRecords.map(r => parseInt(r.condition));
-
     const ctx = chartCanvas.getContext("2d");
     if (chartInstance) chartInstance.destroy();
 
@@ -172,7 +166,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 異常検知
   function checkAbnormal(studentRecords) {
     let consecutiveLow = 0;
     for (let r of studentRecords) {
@@ -189,10 +182,8 @@ window.addEventListener("DOMContentLoaded", () => {
     alertMessage.textContent = "異常なし";
   }
 
-  // 履歴一覧表示
   function renderHistoryList(studentRecords, grade, className, number, name) {
     historyList.innerHTML = "";
-
     const header = document.createElement("h3");
     header.textContent = `${grade} ${className} ${number}番 ${name} の履歴一覧`;
     historyList.appendChild(header);
@@ -211,7 +202,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // メモ保存イベント
   saveMemoBtn.addEventListener("click", () => {
     if (!currentStudentKey) {
       alert("先に生徒を選択してください。");
@@ -221,24 +211,19 @@ window.addEventListener("DOMContentLoaded", () => {
     alert("メモを保存しました");
   });
 
-  // 学年・クラス変更時に生徒選択肢を更新
   gradeSelect.addEventListener("change", updateStudentOptions);
   classSelect.addEventListener("change", updateStudentOptions);
-
-  // 表示ボタンで選択された生徒の履歴を表示
-  filterForm.addEventListener("submit", (e) => {
+    filterForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const grade = gradeSelect.value;
     const className = classSelect.value;
     const number = parseInt(studentSelect.value, 10);
     const classKey = `${grade}-${className}`;
-    const roster = rosterData[classKey] || [];
+    const roster = Array.isArray(rosterData[classKey]) ? rosterData[classKey] : [rosterData[classKey]];
     const student = roster.find(s => s.number === number) || { name: "（未登録）" };
 
     updateChartAndMemo(grade, className, number, student.name);
     renderTeacherView(grade, className);
   });
-
-  // 初期表示（ページ読み込み時）
-  updateStudentOptions();
 });
+
